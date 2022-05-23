@@ -1,4 +1,6 @@
-public class BankHolder implements BankHolderInterface {
+import java.io.Serializable;
+
+public class BankHolder implements BankHolderInterface, Serializable {
 
     private int balance;
     private Person person;

@@ -13,8 +13,8 @@ public class BankServer implements Runnable
     private ArrayList<SocketHandler> handlers;
     public BankServer(int port)
     {
-        bank = new Bank();
-        handlers = new ArrayList<SocketHandler>();
+        bank = new Bank("holders.txt");
+        this.handlers = new ArrayList<SocketHandler>();
         try {
             this.serverSocket = new ServerSocket(port);
         }
@@ -71,6 +71,7 @@ public class BankServer implements Runnable
             case ("clients"):
                 System.out.println(handlers.size() + " client(s) connected");
                 break;
+            
             default:
                 System.out.println("Unrecognised Command");
                 break;
@@ -339,6 +340,7 @@ public class BankServer implements Runnable
 
         public void shutdown()
         {
+            bank.saveBankHolders("holders.txt");
             try{
                 //send Client shutdown command
                 this.running = false;

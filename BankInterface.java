@@ -34,5 +34,7 @@ public interface BankInterface {
      */
     public boolean transfer(BankHolderInterface holder, int accountNumber, int amount);
 
+    public void saveBankHolders(String filePath);
+
 
 }

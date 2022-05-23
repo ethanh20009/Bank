@@ -1,9 +1,11 @@
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
     private String firstName;
     private String surname;
     private int age;
 
-    public Person(String firstName, String surname, int age)
+    public Person (String firstName, String surname, int age)
     {
         this.firstName = firstName;
         this.surname = surname;
