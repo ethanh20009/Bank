@@ -34,6 +34,9 @@ public interface BankInterface {
      */
     public boolean transfer(BankHolderInterface holder, int accountNumber, int amount);
 
+    /**
+     * Performs shutdown operations, cleanup routines
+     */
     public void shutdown();
 
 
