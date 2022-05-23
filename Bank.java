@@ -1,13 +1,10 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 
 public class Bank implements BankInterface{
 
     private ArrayList<BankHolderInterface> holders;
+    private String filePath;
 
     public Bank(){holders = new ArrayList<BankHolderInterface>();}
 
@@ -16,7 +13,8 @@ public class Bank implements BankInterface{
      * @param filePath
      */
     public Bank(String filePath){
-        this.holders = loadBankHolders(filePath);
+        this.filePath = filePath;
+        this.holders = HolderSaver.loadBankHolders(this.filePath);
     }
 
     @Override
@@ -84,45 +82,11 @@ public class Bank implements BankInterface{
         
     }
 
-    private ArrayList<BankHolderInterface> loadBankHolders(String filePath)
-    {
-        try(ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(filePath)))
-        {
-            ArrayList<BankHolderInterface> bankHolders = new ArrayList<BankHolderInterface>();
-            BankHolder holder;
-            while ((holder = (BankHolder)objectInputStream.readObject()) != null)
-            {
-                bankHolders.add(holder);
-            }
-            return bankHolders;
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-        catch(ClassNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        return new ArrayList<BankHolderInterface>();
+    @Override
+    public void shutdown() {
+        HolderSaver.saveBankHolders(this.filePath, this.holders);
     }
 
-    public void saveBankHolders(String filePath)
-    {
-        try(ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(filePath)))
-        {
-            for (BankHolderInterface bankHolder : this.holders)
-            {
-                objectOutputStream.writeObject(bankHolder);
-            }
-            objectOutputStream.writeObject(null);
-            objectOutputStream.flush();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
+    
     
 }

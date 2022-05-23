@@ -340,7 +340,7 @@ public class BankServer implements Runnable
 
         public void shutdown()
         {
-            bank.saveBankHolders("holders.txt");
+            bank.shutdown();
             try{
                 //send Client shutdown command
                 this.running = false;
