@@ -17,11 +17,14 @@ public class Client {
     {
         this.running = true;
         try{
-            Socket socket = new Socket("localhost", port);
+            this.systemIn = new BufferedReader(new InputStreamReader(System.in));
+            System.out.println("Server: ");
+            String serverAddress = this.systemIn.readLine();
+            Socket socket = new Socket(serverAddress, port);
             this.socket = socket;
             this.in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             this.out = new BufferedWriter(new OutputStreamWriter(this.socket.getOutputStream()));
-            this.systemIn = new BufferedReader(new InputStreamReader(System.in));
+
 
         }catch(IOException e)
         {
@@ -29,6 +32,7 @@ public class Client {
             this.running = false;
         }
     }
+
 
     public void shutdown()
     {
@@ -64,6 +68,7 @@ public class Client {
     public static void main(String[] args)
     {
         Client client = new Client(1234);
+        if (!client.running) {return;}
         
         //Create thread to read socket stream
         Thread thread = new Thread(){
